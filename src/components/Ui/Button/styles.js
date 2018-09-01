@@ -17,6 +17,9 @@ export const ButtonWrap = styled.button`
     &.success {
         color: #5C9210;
     }
+    .disabled{
+        cursor: not-allowed;
+    }
     
     &.danger {
         color: #944317;

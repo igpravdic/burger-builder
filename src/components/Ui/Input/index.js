@@ -3,10 +3,16 @@ import { FormGroup, Label, Input } from 'reactstrap';
 
 const Cinput = (props) => {
     let inputElement = null;
+    let touch = null;
 
     switch (props.elementType){
         case ('input'):
-            inputElement = <Input valid={props.invalid} {...props.elementConfig} onChange={props.changed} value={props.value} />;
+            //inputElement = <Input {...props.elementConfig} onChange={props.changed} value={props.value} />;
+            if(props.touched && !props.invalid){
+                touch = props.invalid;
+            }
+            inputElement = <Input valid={touch} {...props.elementConfig} onChange={props.changed} value={props.value} />;
+            
             break;
         case ('textarea'):
             inputElement = (
