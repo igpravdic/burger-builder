@@ -5,6 +5,8 @@ import Spinner from '../../../components/Ui/Spinner';
 import Input from '../../../components/Ui/Input';
 import withErrorHandler from '../../../hoc/withErrorHandler';
 
+import { connect } from 'react-redux';
+
 class ContactData extends Component{
     state = {
         name: 'Igor',
@@ -106,7 +108,7 @@ class ContactData extends Component{
             formData[formElementIdentifier] = this.state.orderForm[formElementIdentifier].value;
         }
         const order = {
-            ingredients: this.props.ingredients,
+            ingredients: this.props.ings,
             price: this.props.price,
             orderDate: formData
         }
@@ -198,4 +200,11 @@ class ContactData extends Component{
     }
 }
 
-export default withErrorHandler(ContactData, axios);
+const mapStateToProps = state => {
+    return{
+        ings: state.ing.ingredients,
+        price: state.ing.totalPrice
+    }
+}
+
+export default connect(mapStateToProps)(withErrorHandler(ContactData, axios));
