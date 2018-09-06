@@ -6,23 +6,33 @@ import { Route, Switch, withRouter, Redirect} from 'react-router-dom';
 
 import Layout from './hoc/Layout';
 import BurgerBuilder from './containers/BurgerBuilder';
-import Checkout from './containers/checkout';
-import Orders from './containers/Orders';
-import Auth from './containers/Auth';
 import Logout from './containers/Auth/Logout';
 
 import { authCheckState } from './actions/action_auth';
+import asyncComponent from './hoc/asyncComponent';
+
+const asyncCheckout = asyncComponent(() => {
+  return import('./containers/checkout');
+})
+
+const asyncAuth = asyncComponent(() => {
+  return import('./containers/Auth');
+})
+
+const asyncOrders = asyncComponent(() => {
+  return import('./containers/Orders');
+})
+
 
 class App extends Component {
   componentDidMount() {
     this.props.onTryAutoSign()
   }
 
-  
   render() {
     let routes = (
       <Switch>
-        <Route path="/auth" exact component={Auth}/>
+        <Route path="/auth" exact component={asyncAuth}/>
         <Route path="/" exact component={BurgerBuilder}/>
         <Redirect to="/" />
       </Switch>
@@ -30,9 +40,10 @@ class App extends Component {
     if(this.props.isAuthenticated){
       routes = (
         <Switch>
-            <Route path="/checkout" component={Checkout}/>
-            <Route path="/orders" exact component={Orders}/>
+            <Route path="/checkout" component={asyncCheckout}/>
+            <Route path="/orders" exact component={asyncOrders}/>
             <Route path="/logout" exact component={Logout}/>
+            <Route path="/auth" exact component={asyncAuth}/>
             <Route path="/" exact component={BurgerBuilder}/>
             <Redirect to="/" />
         </Switch>

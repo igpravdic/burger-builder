@@ -13,7 +13,7 @@ const SideDrawer = (props) => {
     return(
         <Aux>
             <Backdrop show={props.open} hide={props.hide}/>
-            <SideDrawerWrap className={sideDrawerClass}>
+            <SideDrawerWrap className={sideDrawerClass} onClick={props.hide}>
                 <Logo />
                 <nav>
                     <NavigationItems />
