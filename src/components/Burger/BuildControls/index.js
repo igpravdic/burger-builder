@@ -22,7 +22,7 @@ const BuildControls = (props) => {
                     disabled={props.disabled[ctrl.type]}
                     />
             ))}
-            <OrderButton disabled={!props.purchaseable} onClick={props.ordered}>Order now</OrderButton>
+            <OrderButton disabled={!props.purchaseable} onClick={props.ordered}>{props.isAuth ? 'Order now' : 'Sign In'}</OrderButton>
         </BuildControlsWrap>  
     )
 }

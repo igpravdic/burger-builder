@@ -13,7 +13,7 @@ const Toolbar = (props) => {
             </DrawerToggle>
             <Logo/>
             <nav>
-                <NavigationItems />
+                <NavigationItems isAuth={props.isAuth}/>
             </nav>
         </ToolbarWrap>
     )
