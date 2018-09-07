@@ -15,13 +15,13 @@ import { orderPurchaseRedirect } from '../../actions/action_order';
 import { setAuthRedirectPath } from '../../actions/action_auth';
 
 
-class BurgerBuilder extends Component {
+export class BurgerBuilder extends Component {
     state = {
         modalOpen: false,
         loading: false
     }
     componentDidMount() {
-        this.props.onInitIgredients();
+        this.props.onInitIngredients();
     }
     updatePurchaseState (ingredients){
         const sum = Object.keys(ingredients).map(igKey => {
@@ -150,7 +150,7 @@ const mapDispatchToProps = dispatch => {
     return {
         onIngredientAdded: (ingName) => dispatch(addIngredient(ingName)),
         onIngredientRemoved: (ingName) => dispatch(removeIngredient(ingName)),
-        onInitIgredients: () => dispatch(initIngredients()),
+        onInitIngredients: () => dispatch(initIngredients()),
         onPurchaseRedirect: () => dispatch(orderPurchaseRedirect()),
         onSetAuthRedirectPath: (path) => dispatch(setAuthRedirectPath(path))
     }
