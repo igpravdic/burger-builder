@@ -86,3 +86,57 @@ export const fetchOrder = (token, userId) => {
         })
     }
 }
+
+export const deleteOrderStart = () => {
+    return {
+        type: actionType.DELETE_ORDER_START
+    }
+}
+
+export const deleteOrderFail = (error) => {
+    return {
+        type: actionType.DELETE_ORDER_START,
+        error: error
+    }
+}
+
+export const deleteOrderSuccess = (deletedOrderItem) => {
+    return {
+        type: actionType.DELETE_ORDER_SUCCESS,
+        delOrderItem: deletedOrderItem
+    }
+}
+
+export const deleteOrder = (token, orderId, userId) => {
+    return dispatch => {
+       dispatch(deleteOrderStart())
+       //Get object
+       const queryDelParams = '?auth=' + token + '&orderBy="$key"&equalTo="' + orderId +'"';
+       axios.get('/orders.json' + queryDelParams)
+       .then(res => {
+           for(let key in res.data){
+                axios.delete('/orders/' + key+ '.json?auth=' + token)
+                .then(res => {
+                    //console.log('done')
+                })
+                .catch(err => {
+                    dispatch(deleteOrderFail(err));
+                })
+           }
+           const deletedOrderItem = [];
+            for(let key in res.data){
+                deletedOrderItem.push({
+                    ...res.data[key],
+                    id: key
+                })
+            }
+           dispatch(deleteOrderSuccess(deletedOrderItem));
+       })
+       .catch(err => {
+           dispatch(deleteOrderFail(err));
+       })
+
+       //dispatch(fetchOrder(token, userId));
+       
+    }
+}
